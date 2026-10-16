@@ -8,12 +8,24 @@
      ========================================================= -->
 
 <video
-    id="openlist-video-bg"
+    id="openlist-video-bg-light"
+    class="openlist-video-bg"
     autoplay
     muted
     loop
     playsinline
-    preload="auto"
+    preload="metadata"
+    disablepictureinpicture
+></video>
+
+<video
+    id="openlist-video-bg-dark"
+    class="openlist-video-bg"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
     disablepictureinpicture
 ></video>
 
@@ -2051,7 +2063,7 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-    #openlist-video-bg {
+    .openlist-video-bg {
 
         display:
             none;
@@ -2102,323 +2114,201 @@
     /* =====================================================
        Video
        ===================================================== */
-        
-        function initVideo() {
 
-            const video =
-                $("openlist-video-bg");
+    function initVideo() {
 
+        const lightVideo =
+            $("openlist-video-bg-light");
 
-            if (!video) {
-
-                return;
-
-            }
+        const darkVideo =
+            $("openlist-video-bg-dark");
 
 
-            /*
-            * =====================================================
-            * OpenList Video Background URLs
-            * =====================================================
-            */
+        if (
+            !lightVideo ||
+            !darkVideo
+        ) {
 
-            const LIGHT_VIDEO =
-                "/d/%E5%AD%A6%E7%94%9F%E7%9B%AE%E5%BD%95/alist%E9%BB%98%E8%AE%A4%E8%83%8C%E6%99%AF/lemon.mp4";
+            return;
 
-
-            const DARK_VIDEO =
-                "/d/%E5%AD%A6%E7%94%9F%E7%9B%AE%E5%BD%95/alist%E9%BB%98%E8%AE%A4%E8%83%8C%E6%99%AF/wallpaper1.mp4";
+        }
 
 
-            /*
-            * =====================================================
-            * Video Basic Attributes
-            * =====================================================
-            */
+        /*
+        * =====================================================
+        * OpenList Video Background URLs
+        * =====================================================
+        */
 
-            video.muted =
-                true;
-
-            video.loop =
-                true;
-
-            video.playsInline =
-                true;
+        const LIGHT_VIDEO =
+            "/d/%E5%AD%A6%E7%94%9F%E7%9B%AE%E5%BD%95/alist%E9%BB%98%E8%AE%A4%E8%83%8C%E6%99%AF/lemon.mp4";
 
 
-            /*
-            * =====================================================
-            * Determine Current Theme
-            * =====================================================
-            */
+        const DARK_VIDEO =
+            "/d/%E5%AD%A6%E7%94%9F%E7%9B%AE%E5%BD%95/alist%E9%BB%98%E8%AE%A4%E8%83%8C%E6%99%AF/wallpaper1.mp4";
 
-            function isDarkMode() {
 
-                return document.body.classList.contains(
-                    "hope-ui-dark"
+        /*
+        * =====================================================
+        * Load Sources Only Once
+        * =====================================================
+        */
+
+        if (!lightVideo.src) {
+
+            lightVideo.src =
+                LIGHT_VIDEO;
+
+            darkVideo.src =
+                DARK_VIDEO;
+
+        }
+
+
+        /*
+        * =====================================================
+        * Determine Current Theme
+        * =====================================================
+        */
+
+        function isDarkMode() {
+
+            return document.body.classList.contains(
+                "hope-ui-dark"
+            );
+
+        }
+
+
+        /*
+        * =====================================================
+        * Apply Theme
+        * =====================================================
+        */
+
+        function applyTheme() {
+
+            if (isDarkMode()) {
+
+                darkVideo.classList.add(
+                    "active"
                 );
 
+                lightVideo.classList.remove(
+                    "active"
+                );
+
+                darkVideo.play().catch(
+                    function () {}
+                );
+
+                lightVideo.pause();
+
+            } else {
+
+                lightVideo.classList.add(
+                    "active"
+                );
+
+                darkVideo.classList.remove(
+                    "active"
+                );
+
+                lightVideo.play().catch(
+                    function () {}
+                );
+
+                darkVideo.pause();
+
             }
 
-
-            /*
-            * =====================================================
-            * Set Video
-            * =====================================================
-            */
-
-            function setVideo(
-                force
-            ) {
-
-                const target =
-                    isDarkMode()
-                        ? DARK_VIDEO
-                        : LIGHT_VIDEO;
+        }
 
 
-                /*
-                * If already correct video,
-                * do not reload.
-                */
+        /*
+        * =====================================================
+        * First Apply
+        * =====================================================
+        */
 
-                if (
-                    !force &&
-                    video.dataset.currentVideo ===
-                        target
-                ) {
+        applyTheme();
 
-                    return;
+
+        /*
+        * =====================================================
+        * Observe OpenList Theme Changes
+        * =====================================================
+        */
+
+        const observer =
+            new MutationObserver(
+                function () {
+
+                    applyTheme();
 
                 }
+            );
 
 
-                video.dataset.currentVideo =
-                    target;
+        observer.observe(
+            document.body,
+            {
+                attributes:
+                    true,
+
+                attributeFilter:
+                    [
+                        "class"
+                    ]
+            }
+        );
 
 
-                /*
-                * Save current playback position.
-                * Try to keep natural when switching themes.
-                */
+        observer.observe(
+            document.documentElement,
+            {
+                attributes:
+                    true,
 
-                const oldTime =
-                    video.currentTime || 0;
-
-
-                /*
-                * Fade out old video
-                */
-
-                video.style.opacity =
-                    "0";
+                attributeFilter:
+                    [
+                        "class"
+                    ]
+            }
+        );
 
 
-                /*
-                * Stop current video
-                */
+        /*
+        * =====================================================
+        * Resume On Visibility Change
+        * =====================================================
+        */
 
-                video.pause();
-
-
-                /*
-                * Change source
-                */
-
-                video.src =
-                    target;
-
-
-                /*
-                * Reload
-                */
-
-                video.load();
-
-
-                /*
-                * Fade in when new video can play
-                */
-
-                video.addEventListener(
-                    "canplay",
-                    function () {
-
-                        video.style.opacity =
-                            "";
-
-                    },
-                    {
-                        once: true
-                    }
-                );
-
-
-                video.addEventListener(
-                    "error",
-                    function () {
-
-                        video.style.opacity =
-                            "";
-
-                    },
-                    {
-                        once: true
-                    }
-                );
-
-
-                /*
-                * Auto play
-                */
-
-                const playPromise =
-                    video.play();
-
+        document.addEventListener(
+            "visibilitychange",
+            function () {
 
                 if (
-                    playPromise &&
-                    typeof playPromise.catch ===
-                    "function"
+                    document.visibilityState ===
+                    "visible"
                 ) {
 
-                    playPromise.catch(
-                        function () {
+                    const current =
+                        isDarkMode()
+                            ? darkVideo
+                            : lightVideo;
 
-                            /*
-                            * If browser temporarily blocks autoplay,
-                            * do nothing.
-                            */
 
-                        }
+                    current.play().catch(
+                        function () {}
                     );
 
                 }
 
-
-                /*
-                * Try to restore playback position
-                */
-
-                video.addEventListener(
-                    "loadedmetadata",
-                    function restorePosition() {
-
-                        try {
-
-                            if (
-                                oldTime > 0 &&
-                                oldTime <
-                                video.duration
-                            ) {
-
-                                video.currentTime =
-                                    oldTime;
-
-                            }
-
-                        } catch (e) {}
-
-
-                        video.removeEventListener(
-                            "loadedmetadata",
-                            restorePosition
-                        );
-
-                    }
-                );
-
             }
+        );
 
-
-            /*
-            * =====================================================
-            * First Set
-            * =====================================================
-            */
-
-            setVideo(
-                true
-            );
-
-
-            /*
-            * =====================================================
-            * Observe OpenList Theme Changes
-            * =====================================================
-            */
-
-            const observer =
-                new MutationObserver(
-                    function () {
-
-                        setVideo(
-                            false
-                        );
-
-                    }
-                );
-
-
-            observer.observe(
-                document.body,
-                {
-                    attributes:
-                        true,
-
-                    attributeFilter:
-                        [
-                            "class"
-                        ]
-                }
-            );
-
-
-            observer.observe(
-                document.documentElement,
-                {
-                    attributes:
-                        true,
-
-                    attributeFilter:
-                        [
-                            "class"
-                        ]
-                }
-            );
-
-
-            document.addEventListener(
-                "visibilitychange",
-                function () {
-
-                    if (
-                        document.visibilityState ===
-                        "visible"
-                    ) {
-
-                        const promise =
-                            video.play();
-
-
-                        if (
-                            promise &&
-                            typeof promise.catch ===
-                            "function"
-                        ) {
-
-                            promise.catch(
-                                function () {}
-                            );
-
-                        }
-
-                    }
-
-                }
-            );
-
-        }
+    }
 
     /* =====================================================
        Scroll Effects
