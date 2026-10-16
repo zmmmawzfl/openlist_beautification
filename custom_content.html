@@ -8,12 +8,22 @@
      ========================================================= -->
 
 <video
-    id="openlist-video-bg"
-    autoplay
+    id="openlist-video-bg-light"
+    class="openlist-video-bg"
     muted
     loop
     playsinline
-    preload="auto"
+    preload="metadata"
+    disablepictureinpicture
+></video>
+
+<video
+    id="openlist-video-bg-dark"
+    class="openlist-video-bg"
+    muted
+    loop
+    playsinline
+    preload="metadata"
     disablepictureinpicture
 ></video>
 
@@ -272,12 +282,13 @@
                     &#xB7;
                 </span>
 
-                <!-- Login: opens modal via JS -->
+                <!-- Login / Logout: handled by JS -->
                 <a
                     class="openlist-footer-login"
                     id="openlist-footer-login-btn"
                     href="javascript:void(0)"
                     role="button"
+                    data-action="login"
                     title="&#x767B;&#x5F55;"
                 >
 
@@ -1812,6 +1823,130 @@
 
 
 /* =========================================================
+   Footer Login Button - Logout State
+   ========================================================= */
+
+.openlist-footer-center
+.openlist-footer-login[data-action="logout"] {
+
+    border-color:
+        rgba(
+            235,
+            87,
+            87,
+            0.42
+        );
+
+    background:
+        rgba(
+            235,
+            87,
+            87,
+            0.12
+        );
+
+    color:
+        #d94545
+        !important;
+}
+
+
+.openlist-footer-center
+.openlist-footer-login[data-action="logout"]:hover {
+
+    background:
+        rgba(
+            235,
+            87,
+            87,
+            0.22
+        );
+
+    border-color:
+        rgba(
+            235,
+            87,
+            87,
+            0.65
+        );
+
+    color:
+        #c73030
+        !important;
+
+    box-shadow:
+        0 6px 18px
+        rgba(
+            235,
+            87,
+            87,
+            0.22
+        );
+}
+
+
+.hope-ui-dark
+.openlist-footer-center
+.openlist-footer-login[data-action="logout"] {
+
+    background:
+        rgba(
+            235,
+            87,
+            87,
+            0.18
+        );
+
+    border-color:
+        rgba(
+            235,
+            87,
+            87,
+            0.45
+        );
+
+    color:
+        #ff8e8e
+        !important;
+}
+
+
+.hope-ui-dark
+.openlist-footer-center
+.openlist-footer-login[data-action="logout"]:hover {
+
+    background:
+        rgba(
+            235,
+            87,
+            87,
+            0.30
+        );
+
+    border-color:
+        rgba(
+            235,
+            87,
+            87,
+            0.65
+        );
+
+    color:
+        #ffb0b0
+        !important;
+
+    box-shadow:
+        0 6px 18px
+        rgba(
+            235,
+            87,
+            87,
+            0.24
+        );
+}
+
+
+/* =========================================================
    Mobile
    ========================================================= */
 
@@ -1926,7 +2061,7 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-    #openlist-video-bg {
+    .openlist-video-bg {
 
         display:
             none;
@@ -1977,323 +2112,421 @@
     /* =====================================================
        Video
        ===================================================== */
-        
-        function initVideo() {
 
-            const video =
-                $("openlist-video-bg");
+    function initVideo() {
+
+        const lightVideo =
+            $("openlist-video-bg-light");
+
+        const darkVideo =
+            $("openlist-video-bg-dark");
 
 
-            if (!video) {
+        if (
+            !lightVideo ||
+            !darkVideo
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+        * =====================================================
+        * OpenList Video Background URLs
+        * =====================================================
+        */
+
+        const LIGHT_VIDEO =
+            "/d/%E5%AD%A6%E7%94%9F%E7%9B%AE%E5%BD%95/alist%E9%BB%98%E8%AE%A4%E8%83%8C%E6%99%AF/lemon.mp4";
+
+
+        const DARK_VIDEO =
+            "/d/%E5%AD%A6%E7%94%9F%E7%9B%AE%E5%BD%95/alist%E9%BB%98%E8%AE%A4%E8%83%8C%E6%99%AF/wallpaper1.mp4";
+
+
+        /*
+        * =====================================================
+        * Blob Cache
+        * =====================================================
+        */
+
+        const blobUrls = {
+            light: null,
+            dark: null
+        };
+
+
+        const blobLoading = {
+            light: false,
+            dark: false
+        };
+
+
+        /*
+        * =====================================================
+        * Determine Current Theme
+        * =====================================================
+        */
+
+        function isDarkMode() {
+
+            return document.body.classList.contains(
+                "hope-ui-dark"
+            );
+
+        }
+
+
+        /*
+        * =====================================================
+        * Load Video as Blob
+        * =====================================================
+        */
+
+        function loadBlob(key, url) {
+
+            if (
+                blobUrls[key] ||
+                blobLoading[key]
+            ) {
 
                 return;
 
             }
 
 
-            /*
-            * =====================================================
-            * OpenList Video Background URLs
-            * =====================================================
-            */
-
-            const LIGHT_VIDEO =
-                "/d/%E5%AD%A6%E7%94%9F%E7%9B%AE%E5%BD%95/alist%E9%BB%98%E8%AE%A4%E8%83%8C%E6%99%AF/lemon.mp4";
-
-
-            const DARK_VIDEO =
-                "/d/%E5%AD%A6%E7%94%9F%E7%9B%AE%E5%BD%95/alist%E9%BB%98%E8%AE%A4%E8%83%8C%E6%99%AF/wallpaper1.mp4";
-
-
-            /*
-            * =====================================================
-            * Video Basic Attributes
-            * =====================================================
-            */
-
-            video.muted =
-                true;
-
-            video.loop =
-                true;
-
-            video.playsInline =
+            blobLoading[key] =
                 true;
 
 
-            /*
-            * =====================================================
-            * Determine Current Theme
-            * =====================================================
-            */
+            fetch(
+                url,
+                {
+                    credentials:
+                        "include"
+                }
+            )
+            .then(
+                function (res) {
 
-            function isDarkMode() {
+                    if (!res.ok) {
 
-                return document.body.classList.contains(
-                    "hope-ui-dark"
-                );
+                        throw new Error(
+                            "HTTP " + res.status
+                        );
 
-            }
+                    }
 
-
-            /*
-            * =====================================================
-            * Set Video
-            * =====================================================
-            */
-
-            function setVideo(
-                force
-            ) {
-
-                const target =
-                    isDarkMode()
-                        ? DARK_VIDEO
-                        : LIGHT_VIDEO;
-
-
-                /*
-                * If already correct video,
-                * do not reload.
-                */
-
-                if (
-                    !force &&
-                    video.dataset.currentVideo ===
-                        target
-                ) {
-
-                    return;
+                    return res.blob();
 
                 }
+            )
+            .then(
+                function (blob) {
 
+                    blobUrls[key] =
+                        URL.createObjectURL(
+                            blob
+                        );
 
-                video.dataset.currentVideo =
-                    target;
+                    blobLoading[key] =
+                        false;
 
-
-                /*
-                * Save current playback position.
-                * Try to keep natural when switching themes.
-                */
-
-                const oldTime =
-                    video.currentTime || 0;
-
-
-                /*
-                * Fade out old video
-                */
-
-                video.style.opacity =
-                    "0";
-
-
-                /*
-                * Stop current video
-                */
-
-                video.pause();
-
-
-                /*
-                * Change source
-                */
-
-                video.src =
-                    target;
-
-
-                /*
-                * Reload
-                */
-
-                video.load();
-
-
-                /*
-                * Fade in when new video can play
-                */
-
-                video.addEventListener(
-                    "canplay",
-                    function () {
-
-                        video.style.opacity =
-                            "";
-
-                    },
-                    {
-                        once: true
-                    }
-                );
-
-
-                video.addEventListener(
-                    "error",
-                    function () {
-
-                        video.style.opacity =
-                            "";
-
-                    },
-                    {
-                        once: true
-                    }
-                );
-
-
-                /*
-                * Auto play
-                */
-
-                const playPromise =
-                    video.play();
-
-
-                if (
-                    playPromise &&
-                    typeof playPromise.catch ===
-                    "function"
-                ) {
-
-                    playPromise.catch(
-                        function () {
-
-                            /*
-                            * If browser temporarily blocks autoplay,
-                            * do nothing.
-                            */
-
-                        }
+                    console.log(
+                        "[Video] blob ready:",
+                        key,
+                        blob.size,
+                        "bytes"
                     );
 
-                }
+
+                    /*
+                    * If this blob is for the currently
+                    * playing video, swap src to blob now
+                    */
+
+                    const target =
+                        key === "dark"
+                            ? darkVideo
+                            : lightVideo;
 
 
-                /*
-                * Try to restore playback position
-                */
+                    const isCurrent =
+                        key === "dark"
+                            ? isDarkMode()
+                            : !isDarkMode();
 
-                video.addEventListener(
-                    "loadedmetadata",
-                    function restorePosition() {
-
-                        try {
-
-                            if (
-                                oldTime > 0 &&
-                                oldTime <
-                                video.duration
-                            ) {
-
-                                video.currentTime =
-                                    oldTime;
-
-                            }
-
-                        } catch (e) {}
-
-
-                        video.removeEventListener(
-                            "loadedmetadata",
-                            restorePosition
-                        );
-
-                    }
-                );
-
-            }
-
-
-            /*
-            * =====================================================
-            * First Set
-            * =====================================================
-            */
-
-            setVideo(
-                true
-            );
-
-
-            /*
-            * =====================================================
-            * Observe OpenList Theme Changes
-            * =====================================================
-            */
-
-            const observer =
-                new MutationObserver(
-                    function () {
-
-                        setVideo(
-                            false
-                        );
-
-                    }
-                );
-
-
-            observer.observe(
-                document.body,
-                {
-                    attributes:
-                        true,
-
-                    attributeFilter:
-                        [
-                            "class"
-                        ]
-                }
-            );
-
-
-            observer.observe(
-                document.documentElement,
-                {
-                    attributes:
-                        true,
-
-                    attributeFilter:
-                        [
-                            "class"
-                        ]
-                }
-            );
-
-
-            document.addEventListener(
-                "visibilitychange",
-                function () {
 
                     if (
-                        document.visibilityState ===
-                        "visible"
+                        isCurrent &&
+                        target.src !==
+                            blobUrls[key]
                     ) {
 
-                        const promise =
-                            video.play();
+                        const time =
+                            target.currentTime || 0;
+
+                        target.src =
+                            blobUrls[key];
 
 
-                        if (
-                            promise &&
-                            typeof promise.catch ===
-                            "function"
-                        ) {
+                        target.addEventListener(
+                            "loadedmetadata",
+                            function () {
 
-                            promise.catch(
-                                function () {}
-                            );
+                                try {
 
-                        }
+                                    if (
+                                        time > 0 &&
+                                        time <
+                                        target.duration
+                                    ) {
+
+                                        target.currentTime =
+                                            time;
+
+                                    }
+
+                                } catch (e) {}
+
+
+                                target.play().catch(
+                                    function () {}
+                                );
+
+                            },
+                            {
+                                once: true
+                            }
+                        );
 
                     }
+
+                }
+            )
+            .catch(
+                function (err) {
+
+                    blobLoading[key] =
+                        false;
+
+                    console.warn(
+                        "[Video] blob load failed:",
+                        err
+                    );
 
                 }
             );
 
         }
+
+
+        /*
+        * =====================================================
+        * Apply Theme
+        * =====================================================
+        */
+
+        function applyTheme() {
+
+            const dark =
+                isDarkMode();
+
+
+            const current =
+                dark
+                    ? darkVideo
+                    : lightVideo;
+
+
+            const other =
+                dark
+                    ? lightVideo
+                    : darkVideo;
+
+
+            const currentKey =
+                dark
+                    ? "dark"
+                    : "light";
+
+
+            const otherKey =
+                dark
+                    ? "light"
+                    : "dark";
+
+
+            const currentUrl =
+                dark
+                    ? DARK_VIDEO
+                    : LIGHT_VIDEO;
+
+
+            const otherUrl =
+                dark
+                    ? LIGHT_VIDEO
+                    : DARK_VIDEO;
+
+
+            /*
+            * Prefer blob if available
+            */
+
+            const targetSrc =
+                blobUrls[currentKey] ||
+                currentUrl;
+
+
+            /*
+            * Only set src if it differs
+            */
+
+            if (
+                current.src !== targetSrc
+            ) {
+
+                current.preload =
+                    "metadata";
+
+                current.src =
+                    targetSrc;
+
+            }
+
+
+            current.classList.add(
+                "active"
+            );
+
+            other.classList.remove(
+                "active"
+            );
+
+
+            current.play().catch(
+                function () {}
+            );
+
+            other.pause();
+
+
+            /*
+            * Background download
+            * Current first, other after delay
+            */
+
+            loadBlob(
+                currentKey,
+                currentUrl
+            );
+
+
+            if (!blobUrls[otherKey]) {
+
+                setTimeout(
+                    function () {
+
+                        loadBlob(
+                            otherKey,
+                            otherUrl
+                        );
+
+                    },
+                    8000
+                );
+
+            }
+
+        }
+
+
+        /*
+        * =====================================================
+        * First Apply
+        * =====================================================
+        */
+
+        applyTheme();
+
+
+        /*
+        * =====================================================
+        * Observe OpenList Theme Changes
+        * =====================================================
+        */
+
+        const observer =
+            new MutationObserver(
+                function () {
+
+                    applyTheme();
+
+                }
+            );
+
+
+        observer.observe(
+            document.body,
+            {
+                attributes:
+                    true,
+
+                attributeFilter:
+                    [
+                        "class"
+                    ]
+            }
+        );
+
+
+        observer.observe(
+            document.documentElement,
+            {
+                attributes:
+                    true,
+
+                attributeFilter:
+                    [
+                        "class"
+                    ]
+            }
+        );
+
+
+        /*
+        * =====================================================
+        * Resume On Visibility Change
+        * =====================================================
+        */
+
+        document.addEventListener(
+            "visibilitychange",
+            function () {
+
+                if (
+                    document.visibilityState ===
+                    "visible"
+                ) {
+
+                    const current =
+                        isDarkMode()
+                            ? darkVideo
+                            : lightVideo;
+
+
+                    current.play().catch(
+                        function () {}
+                    );
+
+                }
+
+            }
+        );
+
+    }
 
     /* =====================================================
        Scroll Effects
@@ -3318,7 +3551,7 @@
                         "open"
                     );
 
-                // FIX: id selector, not class
+                // id selector, not class
                 document
                     .querySelectorAll(
                         "#openlist-more-menu.open"
@@ -3922,37 +4155,10 @@
 
 
         /* =====================================================
-           Footer Login Button -> Open Modal
+           Expose global open method
+           Footer Login/Logout Button will call it
            ===================================================== */
 
-        const footerLoginBtn =
-            document.getElementById(
-                "openlist-footer-login-btn"
-            );
-
-        if (footerLoginBtn) {
-
-            footerLoginBtn.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-
-                    try {
-                        sessionStorage.removeItem(
-                            "openlist-guest-mode"
-                        );
-                    } catch (e) {}
-
-                    openModal();
-
-                }
-            );
-
-        }
-
-
-        /* Expose global method for other buttons */
         window.openlistLogin =
             openModal;
 
@@ -3966,6 +4172,272 @@
 
 
     waitForApp();
+
+})();
+
+</script>
+
+
+<!-- =========================================================
+     ▼▼▼ Footer Login / Logout Toggle ▼▼▼
+     ========================================================= -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       Helpers
+       ===================================================== */
+
+    function getBtn() {
+
+        return document.getElementById(
+            "openlist-footer-login-btn"
+        );
+
+    }
+
+
+    function isLoggedIn() {
+
+        try {
+
+            return !!(
+                localStorage.getItem("token") ||
+                sessionStorage.getItem("token")
+            );
+
+        } catch (e) {
+
+            return false;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       Update Button Appearance
+       ===================================================== */
+
+    function updateButton() {
+
+        const btn = getBtn();
+
+        if (!btn) {
+            return;
+        }
+
+
+        const span =
+            btn.querySelector("span");
+
+
+        if (isLoggedIn()) {
+
+            /* ---- Logout state ---- */
+
+            btn.setAttribute(
+                "data-action",
+                "logout"
+            );
+
+            btn.setAttribute(
+                "title",
+                "\u767B\u51FA"
+            );
+
+            if (span) {
+
+                span.innerHTML =
+                    "\u767B\u51FA";
+
+            }
+
+        } else {
+
+            /* ---- Login state ---- */
+
+            btn.setAttribute(
+                "data-action",
+                "login"
+            );
+
+            btn.setAttribute(
+                "title",
+                "\u767B\u5F55"
+            );
+
+            if (span) {
+
+                span.innerHTML =
+                    "\u767B\u5F55";
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       Click Handler
+       ===================================================== */
+
+    function handleClick(event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+
+        const btn = getBtn();
+
+        if (!btn) {
+            return;
+        }
+
+
+        const action =
+            btn.getAttribute(
+                "data-action"
+            );
+
+
+        /* ---- Logout ---- */
+
+        if (action === "logout") {
+
+            try {
+
+                localStorage.removeItem(
+                    "token"
+                );
+
+                sessionStorage.removeItem(
+                    "token"
+                );
+
+                sessionStorage.removeItem(
+                    "openlist-guest-mode"
+                );
+
+            } catch (e) {}
+
+
+            location.reload();
+
+            return;
+
+        }
+
+
+        /* ---- Login ---- */
+
+        if (
+            typeof window.openlistLogin ===
+            "function"
+        ) {
+
+            try {
+
+                sessionStorage.removeItem(
+                    "openlist-guest-mode"
+                );
+
+            } catch (e) {}
+
+
+            window.openlistLogin();
+
+            return;
+
+        }
+
+
+        /* ---- Fallback ---- */
+
+        location.href =
+            "/@login";
+
+    }
+
+
+    /* =====================================================
+       Bind Events
+       ===================================================== */
+
+    function bind() {
+
+        const btn = getBtn();
+
+        if (!btn) {
+            return;
+        }
+
+
+        if (
+            btn.dataset.bound ===
+            "1"
+        ) {
+
+            return;
+
+        }
+
+
+        btn.dataset.bound = "1";
+
+
+        btn.addEventListener(
+            "click",
+            handleClick
+        );
+
+    }
+
+
+    /* =====================================================
+       Init
+       ===================================================== */
+
+    function init() {
+
+        updateButton();
+
+        bind();
+
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                setTimeout(
+                    init,
+                    1200
+                );
+
+            }
+        );
+
+    } else {
+
+        setTimeout(
+            init,
+            1200
+        );
+
+    }
 
 })();
 
