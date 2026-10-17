@@ -79,14 +79,7 @@
                 <div
                     class="openlist-brand-title"
                 >
-                    &#x94DC;&#x50AC;&#x5316;&#x5242;
-                </div>
-
-
-                <div
-                    class="openlist-brand-subtitle"
-                >
-                    Personal Cloud
+                    &#x5B66;&#x751F;&#x76EE;&#x5F55;
                 </div>
 
             </div>
@@ -275,7 +268,7 @@
             <div class="openlist-footer-center">
 
                 <span class="openlist-footer-brand">
-                    &#x94DC;&#x50AC;&#x5316;&#x5242;
+                    &#x5B66;&#x751F;&#x76EE;&#x5F55;
                 </span>
 
                 <span class="openlist-footer-divider">
@@ -2069,6 +2062,750 @@
 
 }
 
+
+
+
+/* =========================================================
+   =========================================================
+   MOBILE FINAL OVERRIDE
+   终极移动端覆盖：必须放在最末尾，会覆盖头部.txt 的旧规则
+   =========================================================
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* ---------- 全局不溢出 ---------- */
+
+    html,
+    body,
+    #root {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    /* ---------- Body 布局 ---------- */
+
+    .body {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 0 0 calc(84px + env(safe-area-inset-bottom)) 0 !important;
+    }
+
+    /* ---------- 顶栏：图标 + Search files ---------- */
+
+    #openlist-topbar {
+        position: fixed !important;
+        top: 8px !important;
+        left: 8px !important;
+        right: 8px !important;
+        width: auto !important;
+        max-width: none !important;
+        transform: none !important;
+        height: 58px !important;
+        min-height: 58px !important;
+        padding: 0 8px 0 12px !important;
+        border-radius: 15px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 6px !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    #openlist-topbar .openlist-brand {
+        flex: 0 0 auto !important;
+        min-width: 0 !important;
+        gap: 0 !important;
+    }
+
+    #openlist-topbar .openlist-brand-text {
+        display: none !important;
+    }
+
+    #openlist-topbar .openlist-brand-icon {
+        width: 34px !important;
+        height: 34px !important;
+        font-size: 18px !important;
+        border-radius: 10px !important;
+    }
+
+    #openlist-topbar .openlist-search-center {
+        position: static !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        display: flex !important;
+        justify-content: stretch !important;
+        align-items: center !important;
+        margin: 0 2px !important;
+    }
+
+    #openlist-topbar .openlist-search-button {
+        width: 100% !important;
+        max-width: none !important;
+        height: 40px !important;
+        padding: 0 14px !important;
+        border-radius: 12px !important;
+        justify-content: flex-start !important;
+        gap: 8px !important;
+        overflow: hidden !important;
+    }
+
+    #openlist-topbar .openlist-search-text {
+        display: inline !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        text-align: left !important;
+        font-size: 13px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+
+    #openlist-topbar .openlist-search-shortcut {
+        display: none !important;
+    }
+
+    #openlist-topbar .openlist-search-icon {
+        font-size: 16px !important;
+        flex: 0 0 auto !important;
+    }
+
+    #openlist-topbar .openlist-actions {
+        flex: 0 0 auto !important;
+        gap: 1px !important;
+    }
+
+    #openlist-topbar .openlist-online {
+        display: none !important;
+    }
+
+    #openlist-topbar .openlist-action {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 14px !important;
+        border-radius: 8px !important;
+    }
+
+    /* ---------- 搜索面板 ---------- */
+
+    #openlist-search-panel {
+        position: fixed !important;
+        top: 72px !important;
+        left: 8px !important;
+        right: 8px !important;
+        width: auto !important;
+        max-width: none !important;
+        transform: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        box-sizing: border-box !important;
+        border-radius: 14px !important;
+    }
+
+    #openlist-search-panel.open {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        transform: none !important;
+    }
+
+    #openlist-search-panel .openlist-search-box {
+        height: 52px !important;
+        padding: 0 14px !important;
+        gap: 10px !important;
+        border-radius: 14px !important;
+    }
+
+    #openlist-search-panel input {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        font-size: 14px !important;
+    }
+
+    /* ---------- 面包屑 ---------- */
+
+    .body > .nav {
+        margin: 74px 8px 12px 8px !important;
+        width: auto !important;
+        max-width: calc(100% - 16px) !important;
+        min-height: 42px !important;
+        height: 42px !important;
+        padding: 0 12px !important;
+        border-radius: 12px !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        align-items: center !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .body > .nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .body > .nav .hope-breadcrumb__list,
+    .body > .nav ol,
+    .body > .nav ul {
+        padding: 0 !important;
+        margin: 0 !important;
+        height: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        gap: 2px !important;
+        list-style: none !important;
+    }
+
+    .body > .nav .nav-item,
+    .body > .nav li {
+        padding: 0 !important;
+        margin: 0 !important;
+        height: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .body > .nav .nav-link,
+    .body > .nav .hope-breadcrumb__link,
+    .body > .nav span {
+        padding: 4px 8px !important;
+        margin: 0 !important;
+        height: auto !important;
+        font-size: 13px !important;
+        line-height: 1.2 !important;
+        border-radius: 7px !important;
+        white-space: nowrap !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+    }
+
+    /* ---------- 文件列表：撑满屏幕宽度 ---------- */
+
+    .obj-box {
+        width: auto !important;
+        max-width: none !important;
+        margin-left: 8px !important;
+        margin-right: 8px !important;
+        box-sizing: border-box !important;
+        border-radius: 14px !important;
+        overflow: hidden !important;
+    }
+
+    .body > .obj-box {
+        margin-left: 8px !important;
+        margin-right: 8px !important;
+        width: auto !important;
+        max-width: calc(100% - 16px) !important;
+    }
+
+    .body > div {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .obj-box > div,
+    .list,
+    .list-box,
+    .list-wrapper,
+    [class*="list-box"],
+    [class*="file-list"],
+    [class*="file-box"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    .obj-box > div > div,
+    .list-item {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        border-radius: 10px !important;
+        transform: none !important;
+    }
+
+    .list-item {
+        padding: 10px 12px !important;
+        gap: 8px !important;
+        font-size: 13px !important;
+    }
+
+    .list-item .icon {
+        width: 22px !important;
+        height: 22px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .list .title {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 10px 12px !important;
+        font-size: 12px !important;
+        display: flex !important;
+        gap: 8px !important;
+    }
+
+    .list .title > *:first-child,
+    .list-item .name-box {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+    }
+
+    .list .title > *:not(:first-child),
+    .list-item .size,
+    .list-item .time,
+    .list-item [class*="size"],
+    .list-item [class*="time"] {
+        flex: 0 0 auto !important;
+        max-width: 80px !important;
+        font-size: 11px !important;
+    }
+
+    .name-box,
+    .name-box .name,
+    .list-item .name {
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        max-width: 100% !important;
+        font-size: 13px !important;
+    }
+
+    .item-thumbnail {
+        transform: none !important;
+        max-width: 100% !important;
+    }
+
+    .obj-box > div > div:hover,
+    .obj-box > div > div:hover .item-thumbnail {
+        transform: none !important;
+    }
+
+    /* ---------- 底栏：只保留 Online + 登录/登出 ---------- */
+
+    #openlist-footer {
+        position: fixed !important;
+        left: 8px !important;
+        right: 8px !important;
+        top: auto !important;
+        bottom: calc(8px + env(safe-area-inset-bottom)) !important;
+        width: auto !important;
+        max-width: none !important;
+        height: 52px !important;
+        min-height: 52px !important;
+        max-height: 52px !important;
+        border-radius: 15px !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        overflow: visible !important;
+    }
+
+    .openlist-footer-inner {
+        padding: 0 12px !important;
+        height: 52px !important;
+        min-height: 52px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+        box-sizing: border-box !important;
+    }
+
+    .openlist-footer-status {
+        flex: 0 0 auto !important;
+        min-width: 0 !important;
+        height: 34px !important;
+        padding: 0 12px !important;
+        gap: 6px !important;
+        font-size: 12px !important;
+        border-radius: 10px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+    }
+
+    .openlist-footer-status-dot {
+        width: 6px !important;
+        height: 6px !important;
+        min-width: 6px !important;
+        border-radius: 50% !important;
+    }
+
+    .openlist-footer-center {
+        position: static !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+        flex: 1 1 auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 0 !important;
+    }
+
+    .openlist-footer-center > .openlist-footer-brand,
+    .openlist-footer-center > .openlist-footer-divider,
+    .openlist-footer-center > span:not(.openlist-footer-login),
+    .openlist-footer-center > a:not(.openlist-footer-login) {
+        display: none !important;
+    }
+
+    .openlist-footer-center .openlist-footer-login {
+        height: 34px !important;
+        padding: 0 14px !important;
+        font-size: 12px !important;
+        border-radius: 10px !important;
+        flex: 0 0 auto !important;
+        gap: 5px !important;
+    }
+
+    .openlist-footer-center .openlist-footer-login svg {
+        width: 12px !important;
+        height: 12px !important;
+    }
+
+    .openlist-footer-actions {
+        display: none !important;
+    }
+
+    /* ---------- 模态框 ---------- */
+
+    #openlist-login-modal {
+        padding: 16px !important;
+    }
+
+    #openlist-login-modal .olm-card {
+        padding: 26px 22px 20px !important;
+        border-radius: 16px !important;
+        width: 100% !important;
+        max-width: 380px !important;
+    }
+
+    #openlist-login-modal .olm-brand {
+        margin-bottom: 18px !important;
+    }
+
+    #openlist-login-modal .olm-brand-icon {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 24px !important;
+        border-radius: 14px !important;
+    }
+
+    #openlist-login-modal .olm-brand-title {
+        font-size: 17px !important;
+    }
+
+    #openlist-login-modal .olm-input {
+        height: 42px !important;
+        font-size: 14px !important;
+    }
+
+    #openlist-login-modal .olm-submit {
+        height: 44px !important;
+        font-size: 14px !important;
+    }
+
+    #openlist-login-modal .olm-guest {
+        height: 40px !important;
+        font-size: 13px !important;
+    }
+
+    /* ---------- 原生悬浮按钮组 ---------- */
+
+    .hope-icon-button {
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 10px !important;
+    }
+
+    /* ---------- 通知栏 / 工具栏位置 ---------- */
+
+    .hope-notification__list {
+        top: 70px !important;
+    }
+
+    .center-toolbar,
+    .left-toolbar-box {
+        bottom: calc(68px + env(safe-area-inset-bottom)) !important;
+    }
+
+}
+
+
+
+
+/* =========================================================
+   =========================================================
+   WELCOME CARD & STACK SPACING FIX
+   欢迎卡片颜色透明 + 卡片间距修复
+   =========================================================
+   ========================================================= */
+
+/* ---------- 1. markdown 内部透明，只显示外层卡片 ---------- */
+
+[class*="markdown"],
+.markdown-body {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: 0 !important;
+}
+
+.markdown,
+.markdown-body {
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
+
+/* ---------- 2. body 垂直子元素间距 ---------- */
+
+/* body 里除 nav 外的每个直接块之间都有 12px 间距 */
+.body > .nav + * {
+    margin-top: 12px !important;
+}
+
+.body > * + * {
+    margin-top: 12px !important;
+}
+
+/* nav 有自己的 margin-top 逻辑 */
+.body > .nav {
+    margin-top: 74px !important;
+    margin-bottom: 0 !important;
+}
+
+/* ---------- 3. 欢迎卡片统一风格 ---------- */
+
+/* 除 obj-box / list / toolbar 外的 body 直接子块 = 欢迎卡片 */
+.body > div:not(.obj-box):not([class*="list"]):not([class*="toolbar"]) {
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.52) !important;
+    border-radius: 14px !important;
+    backdrop-filter: blur(22px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(145%) !important;
+    box-shadow: 0 14px 45px rgba(30, 80, 130, 0.10) !important;
+    padding: 16px 20px !important;
+    margin-left: 8px !important;
+    margin-right: 8px !important;
+    box-sizing: border-box !important;
+    width: auto !important;
+    max-width: calc(100% - 16px) !important;
+}
+
+.hope-ui-dark
+.body > div:not(.obj-box):not([class*="list"]):not([class*="toolbar"]) {
+    background: rgba(14, 18, 26, 0.54) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 14px 45px rgba(0, 0, 0, 0.30) !important;
+}
+
+/* 卡片里的标题 / 段落 */
+.body > div:not(.obj-box):not([class*="list"]) h3 {
+    margin: 0 0 8px 0 !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #2d3a48 !important;
+}
+
+.hope-ui-dark
+.body > div:not(.obj-box):not([class*="list"]) h3 {
+    color: #edf2f7 !important;
+}
+
+.body > div:not(.obj-box):not([class*="list"]) p {
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    color: #54606d !important;
+}
+
+.hope-ui-dark
+.body > div:not(.obj-box):not([class*="list"]) p {
+    color: #a4afbc !important;
+}
+
+/* 关闭按钮（×） */
+.body > div:not(.obj-box):not([class*="list"]) .hope-close-button {
+    opacity: 0.6 !important;
+    transition: opacity 0.2s ease !important;
+    color: #687583 !important;
+}
+
+.hope-ui-dark
+.body > div:not(.obj-box):not([class*="list"]) .hope-close-button {
+    color: #aeb8c4 !important;
+}
+
+.body > div:not(.obj-box):not([class*="list"]) .hope-close-button:hover {
+    opacity: 1 !important;
+}
+
+/* ---------- 4. 移动端 ---------- */
+
+@media (max-width: 768px) {
+
+    .body > .nav + * {
+        margin-top: 10px !important;
+    }
+
+    .body > * + * {
+        margin-top: 10px !important;
+    }
+
+    .body > .nav {
+        margin-top: 74px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .body > div:not(.obj-box):not([class*="list"]):not([class*="toolbar"]) {
+        padding: 14px 16px !important;
+        border-radius: 12px !important;
+        margin-left: 8px !important;
+        margin-right: 8px !important;
+        max-width: calc(100% - 16px) !important;
+    }
+
+    .body > div:not(.obj-box):not([class*="list"]) h3 {
+        font-size: 15px !important;
+        margin: 0 0 6px 0 !important;
+    }
+
+    .body > div:not(.obj-box):not([class*="list"]) p {
+        font-size: 13px !important;
+        line-height: 1.55 !important;
+    }
+
+    .body > div:not(.obj-box):not([class*="list"]) .hope-close-button {
+        width: 28px !important;
+        height: 28px !important;
+    }
+}
+
+
+
+
+/* =========================================================
+   =========================================================
+   MARKDOWN WELCOME CARD UNIFICATION v2
+   匹配所有含 markdown 的卡片容器
+   =========================================================
+   ========================================================= */
+
+/* ---------- 1. 内部所有层透明化 ---------- */
+
+#root .body > div:has(.markdown) > *,
+#root .body > div:has(.markdown) > * > *,
+#root .body > div:has(.markdown) .markdown,
+#root .body > div:has(.markdown) .markdown-body {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* ---------- 2. 外层统一玻璃卡片 ---------- */
+
+#root .body > div:has(.markdown) {
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.52) !important;
+    border-radius: 14px !important;
+    backdrop-filter: blur(22px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(145%) !important;
+    box-shadow: 0 14px 45px rgba(30, 80, 130, 0.10) !important;
+    padding: 16px 20px !important;
+    margin: 12px 8px 0 8px !important;
+    box-sizing: border-box !important;
+    width: auto !important;
+    max-width: calc(100% - 16px) !important;
+    overflow: hidden !important;
+    color: #54606d !important;
+}
+
+.hope-ui-dark #root .body > div:has(.markdown) {
+    background: rgba(14, 18, 26, 0.54) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 14px 45px rgba(0, 0, 0, 0.30) !important;
+    color: #a4afbc !important;
+}
+
+/* ---------- 3. 卡片内文字颜色统一 ---------- */
+
+#root .body > div:has(.markdown) h1,
+#root .body > div:has(.markdown) h2,
+#root .body > div:has(.markdown) h3,
+#root .body > div:has(.markdown) h4 {
+    color: #2d3a48 !important;
+    margin: 0 0 8px 0 !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+}
+
+.hope-ui-dark #root .body > div:has(.markdown) h1,
+.hope-ui-dark #root .body > div:has(.markdown) h2,
+.hope-ui-dark #root .body > div:has(.markdown) h3,
+.hope-ui-dark #root .body > div:has(.markdown) h4 {
+    color: #edf2f7 !important;
+}
+
+#root .body > div:has(.markdown) p {
+    color: inherit !important;
+    margin: 0 0 6px 0 !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+
+#root .body > div:has(.markdown) p:last-child {
+    margin-bottom: 0 !important;
+}
+
+#root .body > div:has(.markdown) a {
+    color: var(--openlist-accent) !important;
+}
+
+/* ---------- 4. 移动端 ---------- */
+
+@media (max-width: 768px) {
+
+    #root .body > div:has(.markdown) {
+        padding: 14px 16px !important;
+        border-radius: 12px !important;
+    }
+
+    #root .body > div:has(.markdown) h1,
+    #root .body > div:has(.markdown) h2,
+    #root .body > div:has(.markdown) h3,
+    #root .body > div:has(.markdown) h4 {
+        font-size: 15px !important;
+        margin-bottom: 6px !important;
+    }
+
+    #root .body > div:has(.markdown) p {
+        font-size: 13px !important;
+        line-height: 1.55 !important;
+    }
+}
+
 </style>
 
 
@@ -2132,12 +2869,6 @@
         }
 
 
-        /*
-        * =====================================================
-        * OpenList Video Background URLs
-        * =====================================================
-        */
-
         const LIGHT_VIDEO =
             "/d/%E5%AD%A6%E7%94%9F%E7%9B%AE%E5%BD%95/alist%E9%BB%98%E8%AE%A4%E8%83%8C%E6%99%AF/lemon.mp4";
 
@@ -2145,12 +2876,6 @@
         const DARK_VIDEO =
             "/d/%E5%AD%A6%E7%94%9F%E7%9B%AE%E5%BD%95/alist%E9%BB%98%E8%AE%A4%E8%83%8C%E6%99%AF/wallpaper1.mp4";
 
-
-        /*
-        * =====================================================
-        * Blob Cache
-        * =====================================================
-        */
 
         const blobUrls = {
             light: null,
@@ -2164,12 +2889,6 @@
         };
 
 
-        /*
-        * =====================================================
-        * Determine Current Theme
-        * =====================================================
-        */
-
         function isDarkMode() {
 
             return document.body.classList.contains(
@@ -2178,12 +2897,6 @@
 
         }
 
-
-        /*
-        * =====================================================
-        * Load Video as Blob
-        * =====================================================
-        */
 
         function loadBlob(key, url) {
 
@@ -2241,11 +2954,6 @@
                         "bytes"
                     );
 
-
-                    /*
-                    * If this blob is for the currently
-                    * playing video, swap src to blob now
-                    */
 
                     const target =
                         key === "dark"
@@ -2323,12 +3031,6 @@
         }
 
 
-        /*
-        * =====================================================
-        * Apply Theme
-        * =====================================================
-        */
-
         function applyTheme() {
 
             const dark =
@@ -2371,18 +3073,10 @@
                     : DARK_VIDEO;
 
 
-            /*
-            * Prefer blob if available
-            */
-
             const targetSrc =
                 blobUrls[currentKey] ||
                 currentUrl;
 
-
-            /*
-            * Only set src if it differs
-            */
 
             if (
                 current.src !== targetSrc
@@ -2413,11 +3107,6 @@
             other.pause();
 
 
-            /*
-            * Background download
-            * Current first, other after delay
-            */
-
             loadBlob(
                 currentKey,
                 currentUrl
@@ -2443,20 +3132,8 @@
         }
 
 
-        /*
-        * =====================================================
-        * First Apply
-        * =====================================================
-        */
-
         applyTheme();
 
-
-        /*
-        * =====================================================
-        * Observe OpenList Theme Changes
-        * =====================================================
-        */
 
         const observer =
             new MutationObserver(
@@ -2495,12 +3172,6 @@
             }
         );
 
-
-        /*
-        * =====================================================
-        * Resume On Visibility Change
-        * =====================================================
-        */
 
         document.addEventListener(
             "visibilitychange",
@@ -3551,7 +4222,6 @@
                         "open"
                     );
 
-                // id selector, not class
                 document
                     .querySelectorAll(
                         "#openlist-more-menu.open"
@@ -4154,11 +4824,6 @@
         );
 
 
-        /* =====================================================
-           Expose global open method
-           Footer Login/Logout Button will call it
-           ===================================================== */
-
         window.openlistLogin =
             openModal;
 
@@ -4239,8 +4904,6 @@
 
         if (isLoggedIn()) {
 
-            /* ---- Logout state ---- */
-
             btn.setAttribute(
                 "data-action",
                 "logout"
@@ -4259,8 +4922,6 @@
             }
 
         } else {
-
-            /* ---- Login state ---- */
 
             btn.setAttribute(
                 "data-action",
@@ -4307,8 +4968,6 @@
             );
 
 
-        /* ---- Logout ---- */
-
         if (action === "logout") {
 
             try {
@@ -4335,8 +4994,6 @@
         }
 
 
-        /* ---- Login ---- */
-
         if (
             typeof window.openlistLogin ===
             "function"
@@ -4357,8 +5014,6 @@
 
         }
 
-
-        /* ---- Fallback ---- */
 
         location.href =
             "/@login";
